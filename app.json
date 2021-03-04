@@ -1,0 +1,12 @@
+{
+  "name": "forex-app-client",
+  "displayName": "forex-app-client",
+  "expo": {
+    "name": "forex-app-client",
+    "slug": "forex-app-client",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
