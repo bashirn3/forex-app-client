@@ -1,19 +1,25 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import axios from 'axios';
 
-export default function SignalDetail({ route, navigation }) {
-    // const { id } = route.params.signal;
-    // console.log(id);
+export default function SignalDetail({ signal }) {
+    const [livePair, setLivePair] = useState({});
+    useEffect(()=>{
+        axios.get(`https://www.freeforexapi.com/api/live?pairs=${signal.currency_pair}`)
+        .then(({data})=>{
+            setLivePair(data);
+        })
+    })
     return (
         <View>
             <View style={{ padding: 20, borderBottomColor: 'grey', borderBottomWidth: 1 }}>
-                <Text style={styles.currencyPair}>EURGBP</Text>
+                <Text style={styles.currencyPair}>{signal.currency_pair}</Text>
             </View>
             <View style={[styles.entry, { padding: 20, borderBottomColor: 'grey', borderBottomWidth: 1 }]}>
-                <Text style={styles.sell}>SELL</Text>
-                <Text>1.0678</Text>
+                <Text style={styles.sell}>{signal.type}</Text>
+                <Text>{signal.entry}</Text>
             </View>
-            <View style={[styles.prices, { padding: 20, borderBottomColor: 'grey', borderBottomWidth: 1  }]}>
+            <View style={[styles.prices, { padding: 20, borderBottomColor: 'grey', borderBottomWidth: 1 }]}>
                 <View>
                     <Text style={styles.takeProfit}>Take Profit #1</Text>
                     <Text style={styles.takeProfit}>Take Profit #2</Text>
@@ -21,12 +27,19 @@ export default function SignalDetail({ route, navigation }) {
                     <Text style={styles.stopLoss}>Stop Loss</Text>
                 </View>
                 <View>
-                    <Text style={styles.takeProfitPrice}>1.235</Text>
-                    <Text style={styles.takeProfitPrice}>1.256</Text>
-                    <Text style={styles.takeProfitPrice}>1.678</Text>
-                    <Text style={styles.stopLossPrice}>1.678</Text>
+                    <Text style={styles.takeProfitPrice}>{signal.take_profit_1}</Text>
+                    <Text style={styles.takeProfitPrice}>{signal.take_profit_2 || '-'}</Text>
+                    <Text style={styles.takeProfitPrice}>{signal.take_profit_3 || '-'}</Text>
+                    <Text style={styles.stopLossPrice}>{signal.stop_loss}</Text>
                 </View>
             </View>
+            <View>
+                <Text style={{ color: 'grey' }}>{livePair?.rates?.[signal.currency_pair].rate === signal?.take_profit_1 ? 'Completed': livePair?.rates?.[signal.currency_pair].rate === signal?.take_profit_1? 'Completed' : 'Active'}</Text>
+                {/* <Text style={[styles.listItemText, { color: '#ffdb58', fontWeight: 'bold' }]}>waiting</Text> */}
+            </View>
+            <a href="https://www.freeforexapi.com">
+                <img alt="Free Forex API" src="https://www.freeforexapi.com/Images/link.png" height="20"></img>
+            </a>
         </View>
     )
 }
@@ -76,8 +89,13 @@ const styles = StyleSheet.create({
     },
 
     entry: {
-       flexDirection: 'row',
-       justifyContent: 'space-between'
-        
-    }
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+
+    },
+
+    listItemText: {
+        marginTop: 5,
+        marginBottom: 5,
+    },
 })

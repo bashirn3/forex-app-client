@@ -1,26 +1,52 @@
-import React from 'react'
-import { View, Text, StatusBar, StyleSheet, Image, ScrollView } from 'react-native'
+import React,  { useState, useEffect } from 'react';
+import { View, Text, StatusBar, StyleSheet, Image, ScrollView, ActivityIndicator} from 'react-native';
+import axios from 'axios';
+import BASE_URL from '../utils/api';
+
 
 const TopicScreen = ({route}) => {
     const { classId, topicId} = route?.params;
+    const [loading, setLoading] = useState(false);
+    const [topic, setTopic] = useState({});
+
+    useEffect(()=>{
+        setLoading(true);
+        axios.get(`${BASE_URL}/classes/${classId}/topics/${topicId}`)
+        .then(({data})=>{
+            console.log(data);
+            setTopic(data.results)
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+        .finally(()=>{
+            setLoading(false);
+        })
+    }, [])
+
+    let img = `${topic?.topic_images?.[0].image.substr(7)}`;
     return (
+        loading ? (<ActivityIndicator size="large" color="#880000" style={{ position: 'absolute', top: '50%', left: '50%' }} />) :
         <ScrollView showsVerticalScrollIndicator={false}>
             <StatusBar backgroundColor='#880000' barStyle="light-content" />
-            {topicId}
-            {classId}
             <View style={styles.header}>
-                <Text style={{ fontSize: 30, fontWeight: 'bold', color: 'grey' }}>What is Support and Resistance?</Text>
+                <Text style={{ fontSize: 30, fontWeight: 'bold', color: 'grey' }}>{topic?.name}</Text>
             </View>
+           
             <View style={styles.imageContainer}>
+                {/* { `${BASE_URL}/${topic?.topic_images?.[0].image}`} */}
                 <Image style={styles.image}
                     source={{
-                        uri: 'https://a.c-dn.net/b/2zdUYu/support-and-resistance-trading_body_Supportandresistanceimage.png.full.png',
+                        // uri: 'https://a.c-dn.net/b/2zdUYu/support-and-resistance-trading_body_Supportandresistanceimage.png.full.png',
+                        uri: BASE_URL + '/'+ img,
                     }}
                 />
             </View>
-           
+            {img}
             <View style={styles.contentContainer}>
-                <Text style={{fontSize: 15}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit sem at turpis imperdiet viverra. Proin nunc risus, molestie ut pharetra in, hendrerit ut nisl. Aliquam laoreet euismod erat, id sodales velit dapibus quis. Curabitur iaculis posuere lobortis. In egestas molestie tempus. Morbi tempus, quam nec pellentesque pharetra, lacus ipsum porta neque, et sagittis ante urna eu mi. In in leo eget augue cursus ornare. Vestibulum vulputate finibus lorem, ac ornare nunc lacinia at.
+                <Text style={{fontSize: 15}}>
+                    {topic?.content}
+                    {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit sem at turpis imperdiet viverra. Proin nunc risus, molestie ut pharetra in, hendrerit ut nisl. Aliquam laoreet euismod erat, id sodales velit dapibus quis. Curabitur iaculis posuere lobortis. In egestas molestie tempus. Morbi tempus, quam nec pellentesque pharetra, lacus ipsum porta neque, et sagittis ante urna eu mi. In in leo eget augue cursus ornare. Vestibulum vulputate finibus lorem, ac ornare nunc lacinia at.
 
                 Pellentesque condimentum porta est quis venenatis.
                 Morbi sed sem a mauris molestie efficitur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi mauris leo, blandit a tortor imperdiet, luctus bibendum odio. Quisque sagittis leo at elementum eleifend. Quisque posuere eros sed erat bibendum, non tempus neque mattis. Sed eget sem vitae purus ullamcorper tristique a ac massa. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla blandit, nisi vitae efficitur commodo, urna sapien dapibus velit, vitae tempor ante dolor sit amet nisl. Praesent vitae hendrerit libero. Integer euismod ultricies odio. Nulla venenatis quis magna ac maximus. Aenean ex tortor, scelerisque vel lacus vitae, feugiat pretium nulla.
@@ -31,7 +57,8 @@ const TopicScreen = ({route}) => {
                 
                 Aliquam sit amet ullamcorper magna. Quisque non rhoncus risus.
 
-Fusce scelerisque sapien ante. Donec non odio ac tortor pretium sollicitudin sodales nec ante. Cras commodo, ipsum ut varius viverra, justo tortor vulputate lectus, ut volutpat enim felis ut nulla. Fusce interdum vitae mauris finibus hendrerit. Sed lacinia finibus imperdiet. Praesent vestibulum volutpat sapien, in aliquet metus pharetra quis. Vestibulum vitae vehicula odio, vel feugiat est. Quisque at dictum ligula, vel ullamcorper purus. Nulla at scelerisque tortor, id bibendum felis. Etiam posuere tortor ultricies massa euismod, ac ultricies eros consequat. Quisque et libero quis eros placerat fringilla ac sed neque. Proin at turpis neque. Fusce a turpis molestie, imperdiet lectus ac, luctus diam.</Text>
+Fusce scelerisque sapien ante. Donec non odio ac tortor pretium sollicitudin sodales nec ante. Cras commodo, ipsum ut varius viverra, justo tortor vulputate lectus, ut volutpat enim felis ut nulla. Fusce interdum vitae mauris finibus hendrerit. Sed lacinia finibus imperdiet. Praesent vestibulum volutpat sapien, in aliquet metus pharetra quis. Vestibulum vitae vehicula odio, vel feugiat est. Quisque at dictum ligula, vel ullamcorper purus. Nulla at scelerisque tortor, id bibendum felis. Etiam posuere tortor ultricies massa euismod, ac ultricies eros consequat. Quisque et libero quis eros placerat fringilla ac sed neque. Proin at turpis neque. Fusce a turpis molestie, imperdiet lectus ac, luctus diam. */}
+</Text>
             </View>
         </ScrollView>
     )

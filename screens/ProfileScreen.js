@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { AuthContext } from '../context/AuthContext';
 import {
     StyleSheet,
     Text,
@@ -8,9 +9,25 @@ import {
     ScrollView,
     TouchableOpacity,
     Alert,
-} from 'react-native'
+} from 'react-native';
+import BASE_URL from '../utils/api';
+import axios from 'axios';
 
 const ProfileScreen = () => {
+    const [userData, setUserData] = useState({});
+    const { user } = useContext(AuthContext);
+    const userObject = JSON.parse(user);
+
+    useEffect(() => {
+     axios.get(`${BASE_URL}/users/${userObject.id}`)
+     .then(({data})=>{
+         setUserData(data.results);
+         
+     }).catch((err)=>{
+         console.log(err)
+     })
+    }, [])
+
     return (
 
         <ScrollView style={styles.scrollContainer}>
@@ -18,16 +35,16 @@ const ProfileScreen = () => {
             <View style={styles.container}>
                 <View style={styles.box}>
                     <Image style={styles.profileImage} source={{ uri: 'https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq.jpg' }} />
-                    <Text style={styles.name}>John Doe</Text>
+                    <Text style={styles.name}>{`${userData?.user_profiles?.first_name} ${userData?.user_profiles?.last_name}`}</Text>
                 </View>
                 <View style={styles.detail}>
                     <View style={styles.info}>
                         <Text style={{ fontWeight: 'bold' }}>Email</Text>
-                        <Text>bash@email.com</Text>
+                        <Text>{userObject.email}</Text>
                     </View>
                     <View style={styles.info}>
                         <Text style={{ fontWeight: 'bold' }}>Username</Text>
-                        <Text>bashir99</Text>
+                        <Text>{userObject.username}</Text>
                     </View>
                 </View>
                 <TouchableOpacity
