@@ -39,7 +39,7 @@ const SigninScreen = ({ navigation }) => {
         password: data.password
     }
     // const { signIn } = React.useContext(AuthContext);
-    const signIn = true;
+    // const signIn = true;
 
     const textInputChange = (val) => {
         setData({
