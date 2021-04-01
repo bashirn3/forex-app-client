@@ -81,8 +81,8 @@ useEffect (()=>{
 
 }, [user,token])
   
-  console.log('user', user);
-  console.log('acessToken', token);
+  // console.log('user', user);
+  // console.log('acessToken', token);
 
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
