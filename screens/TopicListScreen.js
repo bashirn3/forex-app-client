@@ -23,7 +23,7 @@ const TopicListScreen = ({ navigation, route }) => {
 
     return (
         loading ? (<ActivityIndicator size="large" color="#880000" style={{ position: 'absolute', top: '50%', left: '50%' }} />) :
-            <View>
+            <View style={{ flex: 1 }}>
                 <StatusBar backgroundColor='#880000' barStyle="light-content" />
                 <FlatList
                     data={data}

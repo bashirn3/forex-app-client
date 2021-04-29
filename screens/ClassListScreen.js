@@ -7,6 +7,7 @@ import axios from 'axios';
 import BASE_URL from '../utils/api';
 
 
+
 const ClassListScreen = ({ navigation }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -25,8 +26,8 @@ const ClassListScreen = ({ navigation }) => {
     }, [])
 
     return (
-        loading ? (<ActivityIndicator size="large" color="#880000" style={{ position: 'absolute', top: '50%' , left: '50%'}} />) :
-            <View>
+        loading ? (<ActivityIndicator size="large" color="#880000" style={{ position: 'absolute', top: '50%', left: '50%' }} />) :
+            <View style={{ flex: 1 }}>
                 <StatusBar backgroundColor='#880000' />
                 <FlatList
                     data={data}
