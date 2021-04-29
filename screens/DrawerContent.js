@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
+
 import {
     useTheme,
     Avatar,
@@ -24,20 +25,20 @@ import { AuthContext } from '../context/AuthContext';
 export function DrawerContent(props) {
 
     const paperTheme = useTheme();
-    const { setIsLoggedin } = useContext(AuthContext);
+    const { setIsLoggedin, user } = useContext(AuthContext);
     // const { signOut, toggleTheme } = React.useContext(AuthContext);
     const signOut = async () => {
-        try{
+        try {
             await AsyncStorage.removeItem('User');
             await AsyncStorage.removeItem('AccessToken');
         }
-        catch(err){
+        catch (err) {
 
         }
-        
+
         setIsLoggedin(false);
     }
-
+    const userObject = JSON.parse(user);
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>
@@ -51,8 +52,8 @@ export function DrawerContent(props) {
                                 size={50}
                             />
                             <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-                                <Title style={styles.title}>Bashir Sani</Title>
-                                <Caption style={styles.caption}>@bashir99</Caption>
+                                {/* <Title style={styles.title}>Bashir Sani</Title> */}
+                                <Caption style={styles.caption}>@{userObject.email}</Caption>
                             </View>
                         </View>
 
@@ -92,7 +93,7 @@ export function DrawerContent(props) {
                             onPress={() => { props.navigation.navigate('Profile') }}
                         />
                     </Drawer.Section>
-                    <Drawer.Section title="Preferences">
+                    {/* <Drawer.Section title="Preferences">
                         <TouchableRipple onPress={() => { toggleTheme() }}>
                             <View style={styles.preference}>
                                 <Text>Dark Theme</Text>
@@ -101,7 +102,7 @@ export function DrawerContent(props) {
                                 </View>
                             </View>
                         </TouchableRipple>
-                    </Drawer.Section>
+                    </Drawer.Section> */}
                 </View>
             </DrawerContentScrollView>
             <Drawer.Section style={styles.bottomDrawerSection}>

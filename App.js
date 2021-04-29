@@ -1,11 +1,14 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Platform, DevSettings } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
+import { Restart } from 'fiction-expo-restart';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from './context/AuthContext';
 import axios from 'axios';
+import BASE_URL from './utils/api';
 
 
 import {
@@ -57,36 +60,91 @@ export default function App() {
   const [issLoggedin, setIsLoggedin] = useState(false);
   const [user, setUser] = useState({});
   const [token, setToken] = useState('');
-useEffect (()=>{
-  const getData = async () => {
-    try {
-      const acessToken = await AsyncStorage.getItem('AccessToken');
-      const userObject = await AsyncStorage.getItem('User');
-
-      if (acessToken !== null) {
-        setToken(acessToken);
-      }
-
-      if (userObject !== null) {
-        setUser(userObject);
-        setIsLoggedin(true);
-      }
-    }
-    catch (err) {
-      console.log(err);
-    }
-
-  }
-  getData()
-
-}, [user,token])
   
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const acessToken = await AsyncStorage.getItem('AccessToken');
+        const userObject = await AsyncStorage.getItem('User');
+        const rToken = await AsyncStorage.getItem('RefreshToken');
+
+        if (acessToken !== null) {
+          setToken(acessToken);
+        }
+
+        if (userObject !== null) {
+          setUser(userObject);
+          setIsLoggedin(true);
+        }
+      }
+      catch (err) {
+        console.log(err);
+      }
+
+    }
+    getData()
+
+  }, [user, token])
+
   // console.log('user', user);
   // console.log('acessToken', token);
+  // console.log('refresh', refresh);
 
+  const getRefreshToken = async () =>{
+    const refresh = await AsyncStorage.getItem('RefreshToken');
+    return refresh
+  }
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  // axios.interceptors.response.use((response) => {
+  //   return response;
+  // }, (error) => {
+  //   if ((error.response.status === 403)) {
+  //     axios.post(`${BASE_URL}/token`, {
+  //       token: refreshToken
+  //     })
+  //       .then(({ data }) => {
+  //         const {
+  //           acessToken: accessToken
+  //         } = data
+  //         console.log(accessToken);
+  //         AsyncStorage.removeItem('AccessToken');
+  //         AsyncStorage.setItem('AccessToken', accessToken)
 
+  //       })
+  //   }
+  //   // RNRestart.Restart();
+  //   // DevSettings.reload();
+  //   Restart();
+  //   return Promise.resolve();
+  // });
+
+
+  const refreshAuthLogic = failedRequest => {
+    const refresh = getRefreshToken();
+    axios.post(`${BASE_URL}/token`, {
+      token: refresh
+    }).then(({ data }) => {
+      const {
+        acessToken: accessToken
+      } = data
+
+      localStorage.setItem('AccessToken', accessToken);
+      failedRequest.response.config.headers['Authorization'] = `Bearer ${accessToken || ''}`;
+      Restart();
+      return Promise.resolve();
+    });
+
+  }
+
+  // Instantiate the interceptor (you can chain it as it returns the axios instance)
+  createAuthRefreshInterceptor(
+    axios,
+    refreshAuthLogic,
+    {
+      statusCodes: [401, 403]
+    }
+  );
   return (
     <AuthContext.Provider value={{
       user: user,
@@ -104,9 +162,9 @@ useEffect (()=>{
 
             // <MainTabScreen />
           ) : (
-              <RootStackScreen />
+            <RootStackScreen />
 
-            )}
+          )}
         </NavigationContainer>
       </PaperProvider>
     </AuthContext.Provider>
@@ -115,5 +173,4 @@ useEffect (()=>{
 
   );
 }
-
 

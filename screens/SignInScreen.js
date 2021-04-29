@@ -8,7 +8,8 @@ import {
     StyleSheet,
     StatusBar,
     ActivityIndicator,
-    Alert
+    Alert,
+    DevSettings
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -18,6 +19,8 @@ import axios from 'axios';
 import { useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/AuthContext';
+// import RNRestart from 'react-native-restart';
+import { Restart } from 'fiction-expo-restart';
 
 import Users from '../model/users.js';
 import BASE_URL from '../utils/api';
@@ -25,6 +28,7 @@ import BASE_URL from '../utils/api';
 const SigninScreen = ({ navigation }) => {
     const { setIsLoggedin } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
+    const [loginError, setLoginError] = useState(false);
     const [error, setError] = useState({});
     const [data, setData] = useState({
         username: '',
@@ -82,21 +86,32 @@ const SigninScreen = ({ navigation }) => {
             setLoading(true)
             axios.post(`${BASE_URL}/login`, inputValues)
                 .then((resp) => {
-                    const { acessToken } = resp.data;
+                    const { acessToken, refreshToken } = resp.data;
                     axios.defaults.headers.common['Authorization'] = `Bearer ${acessToken}`
                     AsyncStorage.setItem('AccessToken', acessToken)
+                    AsyncStorage.setItem('RefreshToken', refreshToken)
                         .then(() => {
                         });
                     console.log(acessToken)
                     axios.get(`${BASE_URL}/user/current`)
                         .then((resp) => {
                             const { data } = resp;
+                            // AsyncStorage.removeItem('User');
                             AsyncStorage.setItem('User', JSON.stringify(data));
                         })
 
                 }).then(() => {
+
+                }).then(() => {
                     setIsLoggedin(true);
+                    // window.location.reload();
+
+                    // Immediately reload the React Native Bundle
+                    // RNRestart.Restart();
+                    // DevSettings.reload();
+                    Restart();
                 }).catch((err) => {
+                    setLoginError(true);
                     console.log(err);
                 })
                 .finally(() => {
@@ -204,6 +219,10 @@ const SigninScreen = ({ navigation }) => {
                 <TouchableOpacity>
                     <Text style={{ color: '#880000', marginTop: 15 }}>Forgot password?</Text>
                 </TouchableOpacity>
+                {loginError && <Animatable.View animation="fadeInLeft" duration={500}>
+                    <Text style={styles.errorMsg}>{'Wrong credentials, please try again'}</Text>
+                </Animatable.View>}
+
                 <View style={styles.button}>
                     <TouchableOpacity
                         style={styles.signIn}
@@ -216,8 +235,8 @@ const SigninScreen = ({ navigation }) => {
 
                             <Text style={[styles.textSign, {
                                 color: '#fff'
-                            }]}>  {loading ? <ActivityIndicator animating='false' size="small" color="#fff" /> : null}
-                                {''}Sign In</Text>
+                            }]}>
+                                {''}{loading ? 'loading' : 'Sign In'}</Text>
                         </LinearGradient>
                     </TouchableOpacity>
 
