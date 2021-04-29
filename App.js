@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { View, Platform, DevSettings } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { Restart } from 'fiction-expo-restart';
@@ -26,7 +25,6 @@ import {
 import RootStackScreen from './stacks/RootStackScreen';
 import MainTabScreen from './stacks/MainTabScreen';
 import { DrawerContent } from './screens/DrawerContent';
-import { set } from 'react-native-reanimated';
 
 const CustomDefaultTheme = {
   ...NavigationDefaultTheme,
@@ -60,13 +58,12 @@ export default function App() {
   const [issLoggedin, setIsLoggedin] = useState(false);
   const [user, setUser] = useState({});
   const [token, setToken] = useState('');
-  
+
   useEffect(() => {
     const getData = async () => {
       try {
         const acessToken = await AsyncStorage.getItem('AccessToken');
         const userObject = await AsyncStorage.getItem('User');
-        const rToken = await AsyncStorage.getItem('RefreshToken');
 
         if (acessToken !== null) {
           setToken(acessToken);
@@ -86,11 +83,7 @@ export default function App() {
 
   }, [user, token])
 
-  // console.log('user', user);
-  // console.log('acessToken', token);
-  // console.log('refresh', refresh);
-
-  const getRefreshToken = async () =>{
+  const getRefreshToken = async () => {
     const refresh = await AsyncStorage.getItem('RefreshToken');
     return refresh
   }
@@ -121,19 +114,22 @@ export default function App() {
 
 
   const refreshAuthLogic = failedRequest => {
-    const refresh = getRefreshToken();
-    axios.post(`${BASE_URL}/token`, {
-      token: refresh
-    }).then(({ data }) => {
-      const {
-        acessToken: accessToken
-      } = data
+    getRefreshToken()
+      .then((resp) => {
+        axios.post(`${BASE_URL}/token`, {
+          token: resp
+        }).then(({ data }) => {
+          const {
+            acessToken: accessToken
+          } = data
 
-      localStorage.setItem('AccessToken', accessToken);
-      failedRequest.response.config.headers['Authorization'] = `Bearer ${accessToken || ''}`;
-      Restart();
-      return Promise.resolve();
-    });
+          localStorage.setItem('AccessToken', accessToken);
+          failedRequest.response.config.headers['Authorization'] = `Bearer ${accessToken || ''}`;
+          Restart();
+          return Promise.resolve();
+        });
+      });
+
 
   }
 
