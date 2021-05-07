@@ -25,7 +25,7 @@ export default function ClassItem({ navigation, classItem }) {
                 setUserData(results)
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
             })
             .finally(() => {
                 setLoading(false);
@@ -111,13 +111,13 @@ function Pay({ price, classid, id, email, navigation }) {
                         price: price
                     })
                         .then((resp) => {
-                            console.log(resp)
+                            // console.log(resp)
                         })
 
                     axios.put(`${BASE_URL}/users/${id}`, {
                         paid: true
                     }).then((resp) => {
-                        console.log(resp)
+                        // console.log(resp)
                         navigation.navigate('TopicListScreen', { id: classid })
                     })
 

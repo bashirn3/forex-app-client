@@ -1,5 +1,4 @@
 import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
@@ -25,6 +24,7 @@ import {
 import RootStackScreen from './stacks/RootStackScreen';
 import MainTabScreen from './stacks/MainTabScreen';
 import { DrawerContent } from './screens/DrawerContent';
+import TermsConditionsScreen from './screens/TermsConditionsScreen';
 
 const CustomDefaultTheme = {
   ...NavigationDefaultTheme,
@@ -75,7 +75,7 @@ export default function App() {
         }
       }
       catch (err) {
-        console.log(err);
+        // console.log(err);
       }
 
     }
@@ -123,7 +123,7 @@ export default function App() {
             acessToken: accessToken
           } = data
 
-          localStorage.setItem('AccessToken', accessToken);
+          AsyncStorage.setItem('AccessToken', accessToken);
           failedRequest.response.config.headers['Authorization'] = `Bearer ${accessToken || ''}`;
           Restart();
           return Promise.resolve();
@@ -151,9 +151,9 @@ export default function App() {
           {issLoggedin ? (
             <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
               <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
-              {/* <Drawer.Screen name="SupportScreen" />
-            <Drawer.Screen name="SettingsScreen" />
-            <Drawer.Screen name="BookmarkScreen" /> */}
+              <Drawer.Screen name="Terms" component={TermsConditionsScreen} />
+              {/* <Drawer.Screen name="SettingsScreen" />
+            <Drawer.Screen name="BookmarkScreen" />  */}
             </Drawer.Navigator>
 
             // <MainTabScreen />

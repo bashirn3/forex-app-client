@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, Linking } from 'react-native';
 import axios from 'axios';
 
 export default function SignalDetail({ signal }) {
     const [livePair, setLivePair] = useState({});
-    useEffect(()=>{
+    useEffect(() => {
         axios.get(`https://www.freeforexapi.com/api/live?pairs=${signal.currency_pair}`)
-        .then(({data})=>{
-            setLivePair(data);
-        })
+            .then(({ data }) => {
+                setLivePair(data);
+            })
     })
     return (
         <View>
@@ -16,7 +16,7 @@ export default function SignalDetail({ signal }) {
                 <Text style={styles.currencyPair}>{signal.currency_pair}</Text>
             </View>
             <View style={[styles.entry, { padding: 20, borderBottomColor: 'grey', borderBottomWidth: 1 }]}>
-                <Text style={styles.sell}>{signal.type}</Text>
+                <Text style={signal.type.includes('BUY') ? styles.buy : styles.sell}>{signal.type}</Text>
                 <Text>{signal.entry}</Text>
             </View>
             <View style={[styles.prices, { padding: 20, borderBottomColor: 'grey', borderBottomWidth: 1 }]}>
@@ -34,13 +34,14 @@ export default function SignalDetail({ signal }) {
                 </View>
             </View>
             <View>
-                <Text style={{ color: 'grey' }}>{livePair?.rates?.[signal.currency_pair].rate === signal?.take_profit_1 ? 'Completed': livePair?.rates?.[signal.currency_pair].rate === signal?.take_profit_1? 'Completed' : 'Active'}</Text>
+                <Text style={{ color: 'grey' }}>{livePair?.rates?.[signal.currency_pair].rate === signal?.take_profit_1 ? 'Completed' : 'Active'}</Text>
                 {/* <Text style={[styles.listItemText, { color: '#ffdb58', fontWeight: 'bold' }]}>waiting</Text> */}
             </View>
-            <a href="https://www.freeforexapi.com">
-                <img alt="Free Forex API" src="https://www.freeforexapi.com/Images/link.png" height="20"></img>
-            </a>
+            <Text style={{ color: 'blue ' }} onPress={()=>Linking.openURL("https://www.freeforexapi.com")}>
+                <Image alt="Free Forex API" source={{ uri: "https://www.freeforexapi.com/Images/link.png" }} height="20" />
+            </Text>
         </View>
+
     )
 }
 

@@ -92,7 +92,7 @@ const SigninScreen = ({ navigation }) => {
                     AsyncStorage.setItem('RefreshToken', refreshToken)
                         .then(() => {
                         });
-                    console.log(acessToken)
+                    // console.log(acessToken)
                     axios.get(`${BASE_URL}/user/current`)
                         .then((resp) => {
                             const { data } = resp;
@@ -112,7 +112,7 @@ const SigninScreen = ({ navigation }) => {
                     Restart();
                 }).catch((err) => {
                     setLoginError(true);
-                    console.log(err);
+                    // console.log(err);
                 })
                 .finally(() => {
                     setLoading(false);

@@ -11,27 +11,39 @@ const SignalScreen = ({ navigation }) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
+        getData();
+    }, [])
+
+    const getData = () => {
         setLoading(true)
         axios.get(`${BASE_URL}/signals`)
-            .then(({data}) => {
+            .then(({ data }) => {
                 setData(data.results);
-            }).catch((err)=>{
-                console.log(err)
-            }).finally(()=>{
+            }).catch((err) => {
+                // console.log(err)
+            }).finally(() => {
                 setLoading(false);
             })
-    }, [])
+    }
     return (
         loading ? (<ActivityIndicator size="large" color="#880000" style={{ position: 'absolute', top: '50%', left: '50%' }} />) :
-        <View>
-            <StatusBar backgroundColor='#880000' barStyle="light-content" />
-            {/* <Signals navigation={navigation} /> */}
-            <FlatList
-                data={data}
-                renderItem={({ item }) => (<SignalItem navigation={navigation} signal={item} />)}
-                keyExtractor={item => item.id.toString()}
-            />
-        </View>
+            <View style={{ flex: 1 }}>
+                {
+
+                    data.length === 0 ? (<Text style={{ textAlign: 'center', fontSize: 20, marginTop: 30 }}> Sorry, No Signal Found... Try Again.</Text>) : (
+                        <>
+                            <StatusBar backgroundColor='#880000' barStyle="light-content" />
+                            <FlatList
+                                data={data}
+                                renderItem={({ item }) => (<SignalItem navigation={navigation} signal={item} />)}
+                                keyExtractor={item => item.id.toString()}
+                                onRefresh={getData}
+                                refreshing={loading}
+                            />
+                        </>
+                    )
+                }
+            </View>
     )
 }
 

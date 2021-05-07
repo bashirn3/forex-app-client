@@ -92,6 +92,17 @@ export function DrawerContent(props) {
                             label="Profile"
                             onPress={() => { props.navigation.navigate('Profile') }}
                         />
+                        <DrawerItem
+                            icon={({ color, size }) => (
+                                <Icon
+                                    name="file-document-edit-outline"
+                                    color={color}
+                                    size={size}
+                                />
+                            )}
+                            label="Terms and Conditions"
+                            onPress={() => { props.navigation.navigate('Terms') }}
+                        />
                     </Drawer.Section>
                     {/* <Drawer.Section title="Preferences">
                         <TouchableRipple onPress={() => { toggleTheme() }}>
