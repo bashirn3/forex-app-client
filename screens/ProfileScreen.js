@@ -24,7 +24,7 @@ const ProfileScreen = () => {
          setUserData(data.results);
          
      }).catch((err)=>{
-         console.log(err)
+        //  console.log(err)
      })
     }, [])
 
@@ -35,7 +35,7 @@ const ProfileScreen = () => {
             <View style={styles.container}>
                 <View style={styles.box}>
                     <Image style={styles.profileImage} source={{ uri: 'https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq.jpg' }} />
-                    <Text style={styles.name}>{`${userData?.user_profiles?.first_name} ${userData?.user_profiles?.last_name}`}</Text>
+                    <Text style={styles.name}>{`${userData?.user_profiles?.first_name || ''} ${userData?.user_profiles?.last_name || ''}`}</Text>
                 </View>
                 <View style={styles.detail}>
                     <View style={styles.info}>
@@ -47,7 +47,7 @@ const ProfileScreen = () => {
                         <Text>{userObject.username}</Text>
                     </View>
                 </View>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={[styles.signIn, {
                         borderColor: '#880000',
                         borderWidth: 1,
@@ -57,7 +57,7 @@ const ProfileScreen = () => {
                     <Text style={[styles.textSign, {
                         color: '#880000'
                     }]}>Edit</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </ScrollView>
     )

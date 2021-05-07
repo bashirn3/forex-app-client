@@ -13,27 +13,40 @@ const ClassListScreen = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        getData();
+    }, [])
+
+    const getData = () => {
         setLoading(true);
         axios.get(`${BASE_URL}/classes`)
             .then(({ data }) => {
                 setData(data.results);
                 setLoading(false);
             }).catch((err) => {
-                console.log(err)
+                // console.log(err)
             }).finally(() => {
                 setLoading(false);
             })
-    }, [])
+    }
 
     return (
         loading ? (<ActivityIndicator size="large" color="#880000" style={{ position: 'absolute', top: '50%', left: '50%' }} />) :
             <View style={{ flex: 1 }}>
-                <StatusBar backgroundColor='#880000' />
-                <FlatList
-                    data={data}
-                    renderItem={({ item }) => <ClassItem navigation={navigation} classItem={item} />}
-                    keyExtractor={item => item?.id?.toString()}
-                />
+                {
+                    data.length === 0 ? (
+                        <Text style={{ textAlign: 'center', fontSize: 20, marginTop: 30 }}> Sorry, No Class Found... Try Again.</Text>) : (
+                        <>
+                            <StatusBar backgroundColor='#880000' />
+                            <FlatList
+                                data={data}
+                                renderItem={({ item }) => <ClassItem navigation={navigation} classItem={item} />}
+                                keyExtractor={item => item?.id?.toString()}
+                                onRefresh={getData}
+                                refreshing={loading}
+                            />
+                        </>
+                    )
+                }
             </View>
     )
 }

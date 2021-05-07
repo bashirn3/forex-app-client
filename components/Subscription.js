@@ -82,14 +82,14 @@ function Pay({ price, subscription_id, duration, email, id, navigation }) {
                             duration: duration
                         })
                         .then((resp) => {
-                            console.log(resp)
+                            // console.log(resp)
                         })
                     axios.put(`${BASE_URL}/users/${id}`, {
                         signal_paid: true
                     })
                         .then((resp) => {
                             navigation.naviagte('Signals')
-                            console.log(resp)
+                            // console.log(resp)
                         })
 
                 }}

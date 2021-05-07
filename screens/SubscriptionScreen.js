@@ -27,7 +27,7 @@ export default function SubscriptionScreen({ navigation }) {
             }).then(() => {
                 setSignalPaid(userData?.user_profiles?.signal_paid)
             }).catch((err) => {
-                console.log(err);
+                // console.log(err);
             })
         axios.get(`${BASE_URL}/subscriptions`)
             .then(({ data }) => {
@@ -35,7 +35,7 @@ export default function SubscriptionScreen({ navigation }) {
 
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
             })
             .finally(() => {
                 setLoading(false);

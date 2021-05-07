@@ -13,7 +13,7 @@ export default function SignalItem({ signal, navigation }) {
                     navigation.navigate('SignalDetail', {
                     signal: signal})}} >
                 <View style={{ marginLeft: 5 }}>
-                    <Text style={signal.type === 'BUY' ?  styles.buy : signal.type === 'BUY-LIMIT'? styles.buy : styles.sell}>{signal.type}</Text>
+                    <Text style={signal.type.includes('BUY')? styles.buy : styles.sell}>{signal.type}</Text>
                     <Text style={styles.listItemText, { fontWeight: 'bold' }}>{signal.currency_pair}</Text>
                     <View style={styles.signalTime}>
                         <Icon name='time' size={10} color='#333333' /><Text style={{ fontSize: 10 }}> {date2 }</Text>

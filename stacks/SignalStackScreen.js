@@ -32,7 +32,7 @@ const SignalStackScreen = ({ navigation }) => (
             )
         }} />
         <SignalStack.Screen name="SignalDetail" component={SignalDetailScreen} options={{
-            title: 'SignalDetail'
+            title: 'Signal detail'
         }} />
        
 
