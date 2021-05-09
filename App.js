@@ -50,7 +50,6 @@ const CustomDarkTheme = {
 let isDarkTheme = false;
 const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
-// let issLoggedin = false;
 
 const Drawer = createDrawerNavigator();
 
@@ -75,7 +74,7 @@ export default function App() {
         }
       }
       catch (err) {
-        // console.log(err);
+        
       }
 
     }
@@ -88,29 +87,7 @@ export default function App() {
     return refresh
   }
 
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-  // axios.interceptors.response.use((response) => {
-  //   return response;
-  // }, (error) => {
-  //   if ((error.response.status === 403)) {
-  //     axios.post(`${BASE_URL}/token`, {
-  //       token: refreshToken
-  //     })
-  //       .then(({ data }) => {
-  //         const {
-  //           acessToken: accessToken
-  //         } = data
-  //         console.log(accessToken);
-  //         AsyncStorage.removeItem('AccessToken');
-  //         AsyncStorage.setItem('AccessToken', accessToken)
-
-  //       })
-  //   }
-  //   // RNRestart.Restart();
-  //   // DevSettings.reload();
-  //   Restart();
-  //   return Promise.resolve();
-  // });
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 
   const refreshAuthLogic = failedRequest => {
