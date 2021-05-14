@@ -16,16 +16,23 @@ import axios from 'axios';
 const ProfileScreen = () => {
     const [userData, setUserData] = useState({});
     const { user } = useContext(AuthContext);
-    const userObject = JSON.parse(user);
+
+    let userObject;
+    try {
+        userObject = JSON.parse(user)
+    } catch (e) {
+        userObject = user
+    }
+
 
     useEffect(() => {
-     axios.get(`${BASE_URL}/users/${userObject.id}`)
-     .then(({data})=>{
-         setUserData(data.results);
-         
-     }).catch((err)=>{
-        //  console.log(err)
-     })
+        axios.get(`${BASE_URL}/users/${userObject.id}`)
+            .then(({ data }) => {
+                setUserData(data.results);
+
+            }).catch((err) => {
+                //  console.log(err)
+            })
     }, [])
 
     return (

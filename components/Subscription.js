@@ -5,6 +5,7 @@ import PaystackWebView from "react-native-paystack-webview";
 import { v4 as uuidv4 } from 'uuid';
 import BASE_URL from '../utils/api';
 import { PAYSTACK_KEY } from "@env"
+
 function Subscription({ user, email, subscription, navigation }) {
     return (
         <View>

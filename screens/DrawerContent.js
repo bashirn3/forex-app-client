@@ -19,6 +19,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Restart } from 'fiction-expo-restart';
 
 import { AuthContext } from '../context/AuthContext';
 
@@ -31,6 +32,8 @@ export function DrawerContent(props) {
         try {
             await AsyncStorage.removeItem('User');
             await AsyncStorage.removeItem('AccessToken');
+            Restart();
+
         }
         catch (err) {
 
@@ -38,7 +41,13 @@ export function DrawerContent(props) {
 
         setIsLoggedin(false);
     }
-    const userObject = JSON.parse(user);
+    let userObject;
+    try {
+        userObject = JSON.parse(user)
+    } catch (e) {
+        userObject = user
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>

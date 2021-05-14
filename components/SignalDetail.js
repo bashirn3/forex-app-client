@@ -37,9 +37,9 @@ export default function SignalDetail({ signal }) {
                 <Text style={{ color: 'grey' }}>{livePair?.rates?.[signal.currency_pair].rate === signal?.take_profit_1 ? 'Completed' : 'Active'}</Text>
                 {/* <Text style={[styles.listItemText, { color: '#ffdb58', fontWeight: 'bold' }]}>waiting</Text> */}
             </View>
-            <Text style={{ color: 'blue ' }} onPress={()=>Linking.openURL("https://www.freeforexapi.com")}>
+            {/* <Text style={{ color: 'blue ' }} onPress={()=>Linking.openURL("https://www.freeforexapi.com")}>
                 <Image alt="Free Forex API" source={{ uri: "https://www.freeforexapi.com/Images/link.png" }} height="20" />
-            </Text>
+            </Text> */}
         </View>
 
     )

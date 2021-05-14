@@ -96,23 +96,15 @@ const SigninScreen = ({ navigation }) => {
                     axios.get(`${BASE_URL}/user/current`)
                         .then((resp) => {
                             const { data } = resp;
-                            // AsyncStorage.removeItem('User');
+                            AsyncStorage.removeItem('User');
                             AsyncStorage.setItem('User', JSON.stringify(data));
                         })
 
                 }).then(() => {
-
-                }).then(() => {
                     setIsLoggedin(true);
-                    // window.location.reload();
-
-                    // Immediately reload the React Native Bundle
-                    // RNRestart.Restart();
-                    // DevSettings.reload();
-                    Restart();
+                    // Restart();
                 }).catch((err) => {
                     setLoginError(true);
-                    // console.log(err);
                 })
                 .finally(() => {
                     setLoading(false);
