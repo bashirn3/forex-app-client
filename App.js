@@ -121,7 +121,8 @@ export default function App() {
   return (
     <AuthContext.Provider value={{
       user: user,
-      setIsLoggedin: setIsLoggedin
+      setIsLoggedin: setIsLoggedin,
+      issLoggedin: issLoggedin
     }}>
       <PaperProvider theme={theme}>
         <NavigationContainer>
@@ -129,11 +130,8 @@ export default function App() {
             <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
               <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
               <Drawer.Screen name="Terms" component={TermsConditionsScreen} />
-              {/* <Drawer.Screen name="SettingsScreen" />
-            <Drawer.Screen name="BookmarkScreen" />  */}
             </Drawer.Navigator>
 
-            // <MainTabScreen />
           ) : (
             <RootStackScreen />
 

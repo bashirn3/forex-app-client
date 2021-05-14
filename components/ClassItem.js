@@ -13,7 +13,14 @@ export default function ClassItem({ navigation, classItem }) {
     const [userData, setUserData] = useState({})
 
     const { user } = useContext(AuthContext);
-    const userObj = JSON.parse(user);
+
+    let userObj;
+    try {
+        userObj = JSON.parse(user)
+    } catch (e) {
+        userObj = user
+    }
+
 
 
 
@@ -38,7 +45,7 @@ export default function ClassItem({ navigation, classItem }) {
         loading ? (<Text>preparing</Text>) :
             <View>
                 <View style={styles.classItem} >
-                    <View style={{marginTop: 10}}>
+                    <View style={{ marginTop: 10 }}>
                         <Text>{classItem?.name}</Text>
                     </View>
                     <View style={styles.price}>
