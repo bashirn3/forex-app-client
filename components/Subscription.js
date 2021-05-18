@@ -64,9 +64,9 @@ function Pay({ price, subscription_id, duration, email, id, navigation }) {
                 showPayButton={true}
                 refNumber={uuidv4()}
                 payStackSecretKey={PAYSTACK_KEY}
-                paystackKey="pk_test_d33c91c43eb04d7a87b1a5c8bf29075fd8eb99ca"
+                paystackKey="pk_test_b0db5592bf0ee97928783d154c144ad35156efcb"
                 amount={price * 468}
-                billingEmail="bashirrn3@gmail.com"
+                billingEmail={email}
                 // billingMobile="08173625431"
                 // billingName="Bashir Sani"
                 ActivityIndicatorColor="green"

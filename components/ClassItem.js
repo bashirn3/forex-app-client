@@ -6,6 +6,7 @@ import BASE_URL from '../utils/api';
 import { AuthContext } from '../context/AuthContext';
 import PaystackWebView from "react-native-paystack-webview";
 import { v4 as uuidv4 } from 'uuid';
+import { PAYSTACK_KEY } from "@env"
 
 
 export default function ClassItem({ navigation, classItem }) {
@@ -101,10 +102,10 @@ function Pay({ price, classid, id, email, navigation }) {
                 buttonText="Pay Now"
                 showPayButton={true}
                 refNumber={uuidv4()}
-                payStackSecretKey="sk_test_f993a8cad32256c4a0a08d8592390d5a1f7d57e0"
-                paystackKey="pk_test_d33c91c43eb04d7a87b1a5c8bf29075fd8eb99ca"
+                payStackSecretKey={PAYSTACK_KEY}
+                paystackKey="pk_test_b0db5592bf0ee97928783d154c144ad35156efcb"
                 amount={price * 468}
-                billingEmail="bashirrn3@gmail.com"
+                billingEmail={email}
                 // billingMobile="08173625431"
                 // billingName="Bashir Sani"
                 ActivityIndicatorColor="green"

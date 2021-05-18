@@ -23,7 +23,7 @@ export default function TermsConditionsScreen(props) {
                     }}
                 >
                     <Text style={styles.tcP}>Welcome to our app. If you continue to use this app, you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern Leo’s relationship with you in relation to this app. If you disagree with any part of these terms and conditions, please do not use our app.</Text>
-                    <Text style={styles.tcP}>The term ‘Leo’ or ‘us’ or ‘we’ refers to the owner of the app whose registered office is at Commissioner’s Quaters, Awka, Anambra. The term ‘you’ refers to the user or viewer of our app.</Text>
+                    <Text style={styles.tcP}>The term ‘Leo’ or ‘us’ or ‘we’ refers to the owner of the app whose registered office is at No 14 Ifite Road, Awka, Anambra. The term ‘you’ refers to the user or viewer of our app.</Text>
                     <Text style={styles.tcL}>{'\u2022'} Forex trading is a highly risky business, as such by agreeing to our terms and conditions,you have agreed that we are not responsible for any of your losses</Text>
                     <Text style={styles.tcL}>{'\u2022'} The content of this app is strictly for educational purposes and should not be taken as financial advice</Text>
                     <Text style={styles.tcL}>{'\u2022'} The content this app is for your general information and use only. It is subject to change without notice.</Text>

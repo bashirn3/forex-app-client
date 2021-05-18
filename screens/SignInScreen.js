@@ -8,8 +8,7 @@ import {
     StyleSheet,
     StatusBar,
     ActivityIndicator,
-    Alert,
-    DevSettings
+    Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient';

@@ -152,7 +152,14 @@ const SignupScreen = ({ navigation }) => {
 
                         })
 
-                        navigation.navigate('SignInScreen')
+                        // navigation.navigate('SignInScreen')
+                        Alert.alert(
+                            "Success",
+                            "You have successfully signed up, you can log in now",
+                            [
+                              { text: "OK", onPress: () =>  navigation.navigate('SignInScreen') }
+                            ]
+                          );
                     })
                     .catch((err) => {
                         // console.log(err);
@@ -196,7 +203,9 @@ const SignupScreen = ({ navigation }) => {
                         />
                         <TextInput
                             placeholder="Your First Name"
-                            style={styles.textInput}
+                            style={[styles.textInput, {
+                            color: colors.text
+                        }]}
                             autoCapitalize="words"
                             name="firstname"
                             value={data.firstname}
@@ -232,7 +241,9 @@ const SignupScreen = ({ navigation }) => {
                         />
                         <TextInput
                             placeholder="Your Last Name"
-                            style={styles.textInput}
+                            style={[styles.textInput, {
+                                color: colors.text
+                            }]}
                             value={data.lastname}
                             autoCapitalize="words"
                             onChangeText={(val) => lastNameChange(val)}
@@ -254,7 +265,9 @@ const SignupScreen = ({ navigation }) => {
                         />
                         <TextInput
                             placeholder="Your Email"
-                            style={styles.textInput}
+                            style={[styles.textInput, {
+                                color: colors.text
+                            }]}
                             value={data.email}
                             autoCapitalize="none"
                             onChangeText={(val) => emailChange(val)}
@@ -276,7 +289,9 @@ const SignupScreen = ({ navigation }) => {
                         />
                         <TextInput
                             placeholder="Your Username"
-                            style={styles.textInput}
+                            style={[styles.textInput, {
+                                color: colors.text
+                            }]}
                             value = {data.username}
                             autoCapitalize="none"
                             onChangeText={(val) => usernameChange(val)}
@@ -298,7 +313,9 @@ const SignupScreen = ({ navigation }) => {
                         <TextInput
                             placeholder="Your Password"
                             secureTextEntry={data.secureTextEntry ? true : false}
-                            style={styles.textInput}
+                            style={[styles.textInput, {
+                                color: colors.text
+                            }]}
                             autoCapitalize="none"
                             value={data.password}
                             onChangeText={(val) => handlePasswordChange(val)}
@@ -386,8 +403,7 @@ const SignupScreen = ({ navigation }) => {
                                 <Text style={[styles.textSign, {
                                     color: '#fff'
                                 }]}>
-                                    {loading ? <ActivityIndicator animating='false' size="small" color="#fff" /> : null}
-                                    {''}Sign Up</Text>
+                                    {''}{loading ? 'loading' : 'Sign Up'}</Text>
                             </LinearGradient>
                         </TouchableOpacity>
 
